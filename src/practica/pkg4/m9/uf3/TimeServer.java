@@ -23,7 +23,7 @@ public class TimeServer {
     private static SSLServerSocket sslserversocket;
     private static SSLSocket sserver;
     
-    private static final String PROPIETAT1="javax.net.ssl.TrustStore";
+    private static final String PROPIETAT1="javax.net.ssl.KeyStore";
     private static final String V_PROPIETAT="C:\\Users\\ALUMNEDAM\\Documents\\NetBeansProjects\\Practica-4-M9-UF3\\src\\SSL\\ServidorKey.jks";
     
     private static final String PROPIETAT2 = "javax.net.ssl.KeyStorePassword";
@@ -44,12 +44,12 @@ public class TimeServer {
             System.setProperty(PROPIETAT1, V_PROPIETAT);
             System.setProperty(PROPIETAT2, V_PROPIETAT2);
             
-            sslFactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
-            sslserversocket = (SSLServerSocket) sslFactory.createServer
+            sslFactory = (SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
+            sslserversocket = (SSLServerSocket) sslFactory.createServerSocket();
             
             entrada = 
             
-            ServerSocket srvSocket = new ServerSocket(8745);
+            sserver srvSocket = new ServerSocket(8745);
 
             while (true) {
                 Socket cliSocket = srvSocket.accept();

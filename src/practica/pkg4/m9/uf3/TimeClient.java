@@ -18,10 +18,10 @@ public class TimeClient {
     BufferedReader buffer;
     Socket sServer;
     
-    private static final String PROPIETAT1="javax.net.ssl.KeyStore";
+    private static final String PROPIETAT1="javax.net.ssl.TrustStore";
     private static final String V_PROPIETAT="C:\\Users\\ALUMNEDAM\\Documents\\NetBeansProjects\\Practica-4-M9-UF3\\src\\SSL\\ServidorKey.jks";
     
-    private static final String PROPIETAT2 = "javax.net.ssl.KeyStorePassword";
+    private static final String PROPIETAT2 = "javax.net.ssl.TrustStorePassword";
     private static String V_PROPIETAT2 = "123456";
     
     /**
