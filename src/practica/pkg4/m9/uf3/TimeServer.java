@@ -7,9 +7,28 @@ import java.net.Socket;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import static practica.pkg4.m9.uf3.TimeClient.HOST;
+import static practica.pkg4.m9.uf3.TimeClient.PORT;
 
 
 public class TimeServer {
+    private static Scanner entrada;
+    private static GregorianCalendar cal;
+    
+    private static SSLServerSocketFactory sslFactory;
+    private static SSLServerSocket sslserversocket;
+    private static SSLSocket sserver;
+    
+    private static final String PROPIETAT1="javax.net.ssl.TrustStore";
+    private static final String V_PROPIETAT="C:\\Users\\ALUMNEDAM\\Documents\\NetBeansProjects\\Practica-4-M9-UF3\\src\\SSL\\ServidorKey.jks";
+    
+    private static final String PROPIETAT2 = "javax.net.ssl.KeyStorePassword";
+    private static String V_PROPIETAT2 = "123456";
+    
     
     private static final String[] setmana = {
         "Diumenge", 
@@ -22,6 +41,14 @@ public class TimeServer {
 
     public static void main(String[] argv) throws Exception {
         try {
+            System.setProperty(PROPIETAT1, V_PROPIETAT);
+            System.setProperty(PROPIETAT2, V_PROPIETAT2);
+            
+            sslFactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
+            sslserversocket = (SSLServerSocket) sslFactory.createServer
+            
+            entrada = 
+            
             ServerSocket srvSocket = new ServerSocket(8745);
 
             while (true) {
