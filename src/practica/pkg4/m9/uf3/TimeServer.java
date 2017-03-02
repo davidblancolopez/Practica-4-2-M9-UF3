@@ -1,9 +1,7 @@
 
 package practica.pkg4.m9.uf3;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
+
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,20 +11,11 @@ import java.util.Scanner;
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-import static practica.pkg4.m9.uf3.TimeClient.HOST;
-import static practica.pkg4.m9.uf3.TimeClient.PORT;
+
 
 
 public class TimeServer {
-    private static Scanner entrada;
-    private static GregorianCalendar cal;
-    
-    private static SSLServerSocketFactory sslFactory;
-    private static SSLServerSocket sslserversocket;
-    private static SSLSocket sserver;
-    
+        
     private static ServerSocketFactory sFactory;
     
     //Magatzem de claus.
