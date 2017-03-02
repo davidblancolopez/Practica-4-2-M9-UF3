@@ -1,12 +1,16 @@
 
 package practica.pkg4.m9.uf3;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
+import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
@@ -23,10 +27,15 @@ public class TimeServer {
     private static SSLServerSocket sslserversocket;
     private static SSLSocket sserver;
     
-    private static final String PROPIETAT1="javax.net.ssl.KeyStore";
-    private static final String V_PROPIETAT="C:\\Users\\ALUMNEDAM\\Documents\\NetBeansProjects\\Practica-4-M9-UF3\\src\\SSL\\ServidorKey.jks";
+    private static ServerSocketFactory sFactory;
     
-    private static final String PROPIETAT2 = "javax.net.ssl.KeyStorePassword";
+    //Magatzem de claus.
+    private static final String PROPIETAT1="javax.net.ssl.TrustStore";
+    //Ruta del magatzem de claus.
+    private static final String V_PROPIETAT="C:\\Users\\ALUMNEDAM\\Documents\\NetBeansProjects\\Practica-4-M9-UF3\\src\\SSL\\ServidorKey.jks";
+    //Magatzem de contrasenyas en que es confien.
+    private static final String PROPIETAT2 = "javax.net.ssl.TrustStorePassword";
+    //Contrasenya del certificat.
     private static String V_PROPIETAT2 = "123456";
     
     
@@ -43,17 +52,16 @@ public class TimeServer {
         try {
             System.setProperty(PROPIETAT1, V_PROPIETAT);
             System.setProperty(PROPIETAT2, V_PROPIETAT2);
+        
+        //Inicialitzem el Socket , outToServer i BufferReader
+        sFactory = (SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
+        ServerSocket srvSocket = (SSLServerSocket)sFactory.createServerSocket(8745);
             
-            sslFactory = (SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
-            sslserversocket = (SSLServerSocket) sslFactory.createServerSocket();
             
-            entrada = 
-            
-            sserver srvSocket = new ServerSocket(8745);
 
             while (true) {
-                Socket cliSocket = srvSocket.accept();
-                Scanner in = new Scanner(cliSocket.getInputStream());
+                Socket sServer = srvSocket.accept();
+                Scanner in = new Scanner(sServer.getInputStream());
                 int[] data = new int[3];
                 boolean ok = true;
                 for (int i = 0; i < data.length; i++) {
@@ -63,7 +71,7 @@ public class TimeServer {
                         ok = false;
                     }
                 }
-                PrintStream out = new PrintStream(cliSocket.getOutputStream());
+                PrintStream out = new PrintStream(sServer.getOutputStream());
                 if (ok) {
                     data[1] -= 1; 
                     GregorianCalendar cal = new GregorianCalendar(data[2],
@@ -74,7 +82,7 @@ public class TimeServer {
                 } else {
                     System.out.println("Format de les dades incorrecte.");
                 }
-                cliSocket.close();
+                sServer.close();
             }
         } catch (Exception ex) {
             System.out.println("Error en les comuncacions: " + ex);

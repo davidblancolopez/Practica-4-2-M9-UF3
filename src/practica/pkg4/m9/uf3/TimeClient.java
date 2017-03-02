@@ -6,6 +6,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import javax.swing.JOptionPane;
 
 
@@ -17,12 +20,19 @@ public class TimeClient {
     DataOutputStream outToServer;
     BufferedReader buffer;
     Socket sServer;
+    SocketFactory sFactory;
     
+    //Magatzem de claus.
     private static final String PROPIETAT1="javax.net.ssl.TrustStore";
+    //Ruta del magatzem de claus.
     private static final String V_PROPIETAT="C:\\Users\\ALUMNEDAM\\Documents\\NetBeansProjects\\Practica-4-M9-UF3\\src\\SSL\\ServidorKey.jks";
-    
+    //Magatzem de contrasenyas en que es confien.
     private static final String PROPIETAT2 = "javax.net.ssl.TrustStorePassword";
+    //Contrasenya del certificat.
     private static String V_PROPIETAT2 = "123456";
+    
+
+    
     
     /**
      * Constructor de TimeClient
@@ -32,8 +42,12 @@ public class TimeClient {
      * @throws IOException 
      */
     public TimeClient(String host, int port) throws IOException {
+        System.setProperty(PROPIETAT1, V_PROPIETAT);
+        System.setProperty(PROPIETAT2, V_PROPIETAT2);
+        
         //Inicialitzem el Socket , outToServer i BufferReader
-        sServer = new Socket(host, port);
+        sFactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
+        sServer = (SSLSocket) sFactory.createSocket(HOST, PORT);
         outToServer = new DataOutputStream(sServer.getOutputStream());
         buffer = new BufferedReader(new InputStreamReader(sServer.getInputStream()));
         
@@ -46,6 +60,8 @@ public class TimeClient {
         enviarServidor(Integer.parseInt(dia), Integer.parseInt(mes), Integer.parseInt(any));
 
     }
+
+
     /**
      * Metode que li arriba per parametre dia, mes i any.
      * Agafa la informació que li ha arribat i l'envia al servidor. 
@@ -55,9 +71,8 @@ public class TimeClient {
      * @throws IOException 
      */
     public void enviarServidor(int dia, int mes, int any) throws IOException {
-        //Enviem el dia, mes i any, separat per espais en forma de string
         outToServer.writeBytes(dia + " " + mes + " " + any);
-        //Tanquem els recursos
+        //Tanquem recursos.
         buffer.close();
         outToServer.close();
         sServer.close();
